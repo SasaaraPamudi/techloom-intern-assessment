@@ -1,6 +1,7 @@
 package com.techloomai.pos_system.DTO;
 
 import com.techloomai.pos_system.Entity.OrderEntity;
+import com.techloomai.pos_system.Entity.OrderStatus;
 import com.techloomai.pos_system.Entity.ReservationEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,8 +14,8 @@ import java.math.BigDecimal;
 @Data
 public class OrderDTO {
     private Long orderId;
-    private ReservationEntity reservation;
+    private ReservationEntity reservationId;
     private BigDecimal totalAmount;
-    private OrderEntity.Status status = OrderEntity.Status.PENDING;
+    private OrderStatus status = OrderStatus.PENDING;
     private String paymentToken;
 }

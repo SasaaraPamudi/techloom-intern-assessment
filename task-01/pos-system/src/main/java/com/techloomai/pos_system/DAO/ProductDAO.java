@@ -14,4 +14,6 @@ public interface ProductDAO extends JpaRepository<ProductEntity, Long>{
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT p FROM Product p WHERE p.id = :id")
     Optional<ProductEntity> findByIdWithLock(@Param("id") Long id);
+
+    boolean existsById(Long productId);
 }

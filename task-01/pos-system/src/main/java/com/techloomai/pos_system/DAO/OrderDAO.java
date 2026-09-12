@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderDAO extends JpaRepository<OrderEntity,Long> {
+    boolean existsByPaymentToken(String paymentToken);
+    OrderEntity findByPaymentToken(String paymentToken);
 }

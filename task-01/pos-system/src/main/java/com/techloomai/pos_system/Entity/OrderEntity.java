@@ -28,15 +28,13 @@ public class OrderEntity {
     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.PENDING;
+    private OrderStatus status = OrderStatus.PENDING;
 
     @Column(name= "payment_token", unique = true)
     private String paymentToken;
 
     @Column(name="created_at",nullable = false, updatable = false)
     private LocalDate createdAt;
-
-    public enum Status { PENDING, PAID, FAILED, RESERVED, CANCELLED, EXPIRED }
 
 
 

@@ -26,7 +26,8 @@ public class ReservationEntity {
     private Integer quantity;
 
     @Enumerated(EnumType.STRING)
-    private Status status =Status.ACTIVE;
+    @Column(name = "status", nullable = false)
+    private ReservationStatus status =ReservationStatus.ACTIVE;
 
     @Column(name="created_at", nullable=false)
     private LocalDateTime createdAt;
@@ -34,5 +35,4 @@ public class ReservationEntity {
     @Column(name = "expires_at", nullable = false)
     private LocalDateTime expiresAt;
 
-    public enum Status { ACTIVE, COMPLETED, EXPIRED, CANCELLED }
     }
