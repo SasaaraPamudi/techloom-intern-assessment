@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @Transactional
@@ -66,23 +65,4 @@ public class OrderServiceImpl implements OrderService {
         return entityDTOConversion.toOrderDTO(savedOrder);
     }
 
-    @Override
-    public void saveOrder(OrderDTO order) {
-
-    }
-
-    @Override
-    public void updateOrder(Long orderId, OrderDTO order) {
-
-    }
-
-    @Override
-    public void deleteOrder(Long orderId) {
-
-    }
-
-    @Override
-    public List<OrderDTO> getAllOrders() {
-        return List.of();
-    }
 }

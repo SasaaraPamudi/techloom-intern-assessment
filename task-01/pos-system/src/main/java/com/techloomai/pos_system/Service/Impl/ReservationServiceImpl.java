@@ -50,11 +50,6 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public void updateReservation(Long reservationId, ReservationDTO reservation) {
-
-    }
-
-    @Override
     public void deleteReservation(Long reservationId) {
         ReservationEntity reservation = reservationDAO.findById(reservationId)
                 .orElseThrow(()-> new IllegalArgumentException("Reservation Not Found With ID: " + reservationId));
@@ -90,10 +85,5 @@ public class ReservationServiceImpl implements ReservationService {
 
         }
 
-    }
-
-    @Override
-    public List<ReservationDTO> getAllReservations() {
-        return List.of();
     }
 }
