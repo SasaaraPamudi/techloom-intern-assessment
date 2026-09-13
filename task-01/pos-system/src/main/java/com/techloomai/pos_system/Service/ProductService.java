@@ -10,4 +10,7 @@ public interface ProductService {
     void deleteProduct(Long productId);
     ProductDTO getProductById(Long productId);
     List<ProductDTO> getAllProducts();
+    ProductDTO addStock(Long productId, Integer quantity);
+    List<ProductDTO> getLowStockProducts(Integer threshold);
+
 }

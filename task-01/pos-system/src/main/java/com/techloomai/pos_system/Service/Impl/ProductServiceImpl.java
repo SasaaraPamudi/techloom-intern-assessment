@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -64,5 +65,25 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> getAllProducts() {
         List<ProductEntity> allProducts = productDao.findAll();
         return entityDTOConversion.toProductDTOList(allProducts);
+    }
+
+    @Override
+    public ProductDTO addStock(Long productId, Integer quantity) {
+        if(quantity <= 0){
+            throw new IllegalArgumentException("Stock quantity must be positive");
+        }
+        ProductEntity product = productDao.findByIdWithLock(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found witht the Id: " + productId));
+
+        product.setTotalStock(product.getTotalStock() + quantity);
+        ProductEntity updatedProduct = productDao.save(product);
+        return entityDTOConversion.toProductDTO(updatedProduct);
+    }
+
+    @Override
+    public List<ProductDTO> getLowStockProducts(Integer threshold) {
+        return productDao.findByTotalStockLessThanEqual(threshold).stream()
+                .map(entityDTOConversion ::toProductDTO)
+                .collect(Collectors.toList());
     }
 }

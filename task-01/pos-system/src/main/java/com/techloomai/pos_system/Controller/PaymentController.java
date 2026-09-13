@@ -1,4 +1,4 @@
-package com.techloomai.pos_system.Control;
+package com.techloomai.pos_system.Controller;
 
 import com.techloomai.pos_system.DTO.OrderDTO;
 import com.techloomai.pos_system.DTO.PaymentDTO;
