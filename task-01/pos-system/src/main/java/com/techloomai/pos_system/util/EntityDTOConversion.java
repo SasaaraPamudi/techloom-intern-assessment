@@ -13,39 +13,48 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-
 @Component
 public class EntityDTOConversion {
     private final ModelMapper modelMapper;
 
-    public EntityDTOConversion(ModelMapper modelMapper){
+    public EntityDTOConversion(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
-        this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        // STANDARD strategy is far safer for camelCase <-> snake_case field mappings
+        this.modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.STANDARD)
+                .setFieldMatchingEnabled(true)
+                .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
     }
 
-    //product
-    public ProductDTO toProductDTO(ProductEntity product){
+    // Product Mappings
+    public ProductDTO toProductDTO(ProductEntity product) {
+        if (product == null) return null;
         return modelMapper.map(product, ProductDTO.class);
-
     }
-    public ProductEntity toProductEntity(ProductDTO dto){
+
+    public ProductEntity toProductEntity(ProductDTO dto) {
+        if (dto == null) return null;
         return modelMapper.map(dto, ProductEntity.class);
     }
-
 
     public List<ProductDTO> toProductDTOList(List<ProductEntity> allProducts) {
         return modelMapper.map(allProducts, new TypeToken<List<ProductDTO>>() {}.getType());
     }
 
-    //Reservation
-
+    // Reservation Mappings
     public ReservationDTO toReservationDTO(ReservationEntity reservation) {
+        if (reservation == null) return null;
         return modelMapper.map(reservation, ReservationDTO.class);
     }
 
-    //Order
-
+    // Order Mappings
     public OrderDTO toOrderDTO(OrderEntity order) {
+        if (order == null) return null;
         return modelMapper.map(order, OrderDTO.class);
+    }
+
+    public List<OrderDTO> toOrderDTOList(List<OrderEntity> allOrders) {
+        return modelMapper.map(allOrders, new TypeToken<List<OrderDTO>>() {}.getType());
     }
 }

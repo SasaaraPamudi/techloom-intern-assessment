@@ -18,4 +18,44 @@ public class OrderDTO {
     private BigDecimal totalAmount;
     private OrderStatus status = OrderStatus.PENDING;
     private String paymentToken;
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getPaymentToken() {
+        return paymentToken;
+    }
+
+    public void setPaymentToken(String paymentToken) {
+        this.paymentToken = paymentToken;
+    }
+
+    public ReservationEntity getReservationId() {
+        return reservationId;
+    }
+
+    public void setReservationId(ReservationEntity reservationId) {
+        this.reservationId = reservationId;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
+
+    public BigDecimal getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(BigDecimal totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 }

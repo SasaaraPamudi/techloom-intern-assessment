@@ -2,19 +2,19 @@ package com.techloomai.pos_system.Controller;
 
 import com.techloomai.pos_system.DTO.OrderDTO;
 import com.techloomai.pos_system.DTO.PaymentDTO;
-import com.techloomai.pos_system.Service.Impl.PaymentServiceImpl;
-import lombok.RequiredArgsConstructor;
+import com.techloomai.pos_system.Service.PaymentService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/payments")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class PaymentController {
-    private final PaymentServiceImpl paymentService;
+    private final PaymentService paymentService;
+
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @PostMapping("/simulate")
     public ResponseEntity<OrderDTO> simulatePayment(@RequestBody PaymentDTO paymentDTO){

@@ -16,11 +16,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
     private final OrderDAO orderDAO;
     private final ReservationDAO reservationDAO;
     private final EntityDTOConversion entityDTOConversion;
+
+    public PaymentServiceImpl(OrderDAO orderDAO,
+                              ReservationDAO reservationDAO,
+                              EntityDTOConversion entityDTOConversion) {
+        this.orderDAO = orderDAO;
+        this.reservationDAO = reservationDAO;
+        this.entityDTOConversion = entityDTOConversion;
+    }
 
 
     @Override

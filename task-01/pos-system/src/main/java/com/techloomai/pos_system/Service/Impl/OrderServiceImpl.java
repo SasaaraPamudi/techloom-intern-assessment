@@ -3,45 +3,67 @@ package com.techloomai.pos_system.Service.Impl;
 import com.techloomai.pos_system.DAO.OrderDAO;
 import com.techloomai.pos_system.DAO.ReservationDAO;
 import com.techloomai.pos_system.DTO.OrderDTO;
-import com.techloomai.pos_system.Entity.OrderEntity;
-import com.techloomai.pos_system.Entity.OrderStatus;
-import com.techloomai.pos_system.Entity.ReservationEntity;
-import com.techloomai.pos_system.Entity.ReservationStatus;
+import com.techloomai.pos_system.Entity.*;
 import com.techloomai.pos_system.Service.OrderService;
 import com.techloomai.pos_system.util.EntityDTOConversion;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderDAO orderDao;
     private final ReservationDAO reservationDao;
     private final EntityDTOConversion entityDTOConversion;
+
+    public OrderServiceImpl(OrderDAO orderDao,
+                            ReservationDAO reservationDao,
+                            EntityDTOConversion entityDTOConversion) {
+        this.orderDao = orderDao;
+        this.reservationDao = reservationDao;
+        this.entityDTOConversion = entityDTOConversion;
+    }
+
     @Override
     public OrderDTO processCheckout(OrderDTO orderDto) {
         if(orderDao.existsByPaymentToken(orderDto.getPaymentToken())){
-            OrderEntity existingOrder =orderDao.findByPaymentToken(orderDto.getPaymentToken());
+            OrderEntity existingOrder = orderDao.findByPaymentToken(orderDto.getPaymentToken());
             return entityDTOConversion.toOrderDTO(existingOrder);
         }
-        ReservationEntity reservation = reservationDao.findById(orderDto.getReservationId().getResId())
-                .orElseThrow(() -> new IllegalArgumentException("Reservation not found with ID: " + orderDto.getReservationId().getResId()));
 
-        if (reservation.getStatus() != ReservationStatus.ACTIVE || LocalDateTime.now().isAfter(reservation.getExpiresAt())) {
+        Long targetId = orderDto.getOrderId() != null ? orderDto.getOrderId() :
+                (orderDto.getReservationId() != null ? orderDto.getReservationId().getResId() : null);
+
+        OrderEntity orderEntity = orderDao.findById(targetId).orElse(null);
+
+        if (orderEntity == null) {
+            ReservationEntity reservation = reservationDao.findById(targetId)
+                    .orElseThrow(() -> new IllegalArgumentException("Reservation not found with ID: " + targetId));
+
+            orderEntity = orderDao.findByReservation(reservation);
+            if (orderEntity == null) {
+                orderEntity = new OrderEntity();
+                orderEntity.setReservation(reservation);
+                orderEntity.setTotalAmount(java.math.BigDecimal.ZERO);
+                orderEntity.setCreatedAt(java.time.LocalDate.now());
+            }
+        }
+
+        ReservationEntity reservation = orderEntity.getReservation();
+        if (reservation == null || reservation.getStatus() != ReservationStatus.ACTIVE || LocalDateTime.now().isAfter(reservation.getExpiresAt())) {
             throw new IllegalStateException("Reservation is invalid or expired");
         }
 
         reservation.setStatus(ReservationStatus.COMPLETED);
         reservationDao.save(reservation);
 
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setReservation(reservation);
         orderEntity.setPaymentToken(orderDto.getPaymentToken());
-        orderEntity.setTotalAmount(orderDto.getTotalAmount());
+        if (orderDto.getTotalAmount() != null) {
+            orderEntity.setTotalAmount(orderDto.getTotalAmount());
+        }
 
         OrderEntity savedOrder = orderDao.save(orderEntity);
 
@@ -63,6 +85,12 @@ public class OrderServiceImpl implements OrderService {
 
         OrderEntity savedOrder = orderDao.save(order);
         return entityDTOConversion.toOrderDTO(savedOrder);
+    }
+
+    @Override
+    public List<OrderDTO> getAllOrders() {
+        List<OrderEntity> allOrders = orderDao.findAll();
+        return entityDTOConversion.toOrderDTOList(allOrders);
     }
 
 }

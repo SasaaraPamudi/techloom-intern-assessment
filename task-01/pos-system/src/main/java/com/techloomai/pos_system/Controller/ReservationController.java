@@ -2,16 +2,19 @@ package com.techloomai.pos_system.Controller;
 
 import com.techloomai.pos_system.DTO.ReservationDTO;
 import com.techloomai.pos_system.Service.ReservationService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/reservations")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class ReservationController {
     private final ReservationService reservationService;
+
+    public ReservationController(ReservationService reservationService){
+        this.reservationService = reservationService;
+    }
 
     @PostMapping
     public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservation){

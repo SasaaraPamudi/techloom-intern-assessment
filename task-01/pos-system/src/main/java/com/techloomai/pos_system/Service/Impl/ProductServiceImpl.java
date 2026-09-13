@@ -6,7 +6,7 @@ import com.techloomai.pos_system.Entity.ProductEntity;
 import com.techloomai.pos_system.Service.ProductService;
 import com.techloomai.pos_system.util.EntityDTOConversion;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,31 +15,60 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductDAO productDao;
     private final EntityDTOConversion entityDTOConversion;
 
-    @Override
-    public void saveProduct(ProductDTO product) {
-        if(productDao.existsById(product.getProduct_id())){
-            throw new RuntimeException("Product with id" + product.getProduct_id() + " is already exists!");
-        }
-        productDao.save(entityDTOConversion.toProductEntity(product));
-
+    public ProductServiceImpl(ProductDAO productDAO, EntityDTOConversion entityDTOConversion){
+        this.productDao = productDAO;
+        this.entityDTOConversion = entityDTOConversion;
     }
 
     @Override
-    public void updateProduct(Long productId, ProductDTO product) {
+    public ResponseEntity<ProductDTO> saveProduct(ProductDTO productDTO) {
+        // 1. Validation check
+        if (productDTO == null || productDTO.getProduct_name() == null || productDTO.getProduct_name().trim().isEmpty()) {
+            throw new IllegalArgumentException("Product name cannot be null or empty.");
+        }
+
+        // 2. Map DTO to Entity
+        ProductEntity entity = new ProductEntity();
+        entity.setProduct_name(productDTO.getProduct_name());
+        entity.setPrice(productDTO.getPrice());
+        entity.setTotalStock(productDTO.getTotalStock());
+
+        // 3. Save entity
+        ProductEntity savedEntity = productDao.save(entity);
+
+        // 4. Map back to DTO
+        ProductDTO responseDto = new ProductDTO();
+        responseDto.setProduct_id(savedEntity.getProduct_id());
+        responseDto.setProduct_name(savedEntity.getProduct_name());
+        responseDto.setPrice(savedEntity.getPrice());
+        responseDto.setTotalStock(savedEntity.getTotalStock());
+
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @Override
+    public ResponseEntity<ProductDTO> updateProduct(Long productId, ProductDTO product) {
         Optional<ProductEntity> foundproduct = productDao.findById(productId);
-        if(!foundproduct.isPresent()){
+        if (!foundproduct.isPresent()) {
             throw new RuntimeException("The product is not found");
         }
-        foundproduct.get().setProduct_id(product.getProduct_id());
-        foundproduct.get().setProduct_name(product.getProduct_name());
-        foundproduct.get().setPrice(product.getPrice());
-        foundproduct.get().setTotalStock(product.getTotalStock());
 
+        ProductEntity existingProduct = foundproduct.get();
+        existingProduct.setProduct_name(product.getProduct_name());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setTotalStock(product.getTotalStock());
+        ProductEntity savedProduct = productDao.save(existingProduct);
+        ProductDTO responseDto = new ProductDTO();
+        responseDto.setProduct_id(savedProduct.getProduct_id());
+        responseDto.setProduct_name(savedProduct.getProduct_name());
+        responseDto.setPrice(savedProduct.getPrice());
+        responseDto.setTotalStock(savedProduct.getTotalStock());
+
+        return ResponseEntity.ok(responseDto);
     }
 
     @Override
