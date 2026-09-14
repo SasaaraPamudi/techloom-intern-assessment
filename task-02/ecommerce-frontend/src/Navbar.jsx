@@ -8,12 +8,12 @@ export default function Navbar({ activeTab, setActiveTab, cartItemCount, searchQ
     display: 'flex',
     height: '70px',
     padding: '0 24px',
-    backgroundColor: '#0f172a',
-    borderBottom: '1px solid #334155',
+    backgroundColor: '#11140D',
+    borderBottom: '1px solid #2B3024',
     alignItems: 'center',
     justifyContent: 'space-between',
-    color: '#ffffff',
-    fontFamily: 'sans-serif'
+    color: '#FDFDFD',
+    fontFamily: "'Playfair Display', Georgia, serif"
   };
 
   const leftGroupStyle = {
@@ -26,10 +26,11 @@ export default function Navbar({ activeTab, setActiveTab, cartItemCount, searchQ
   const logoStyle = {
     fontSize: '1.2rem',
     fontWeight: 'bold',
-    color: '#38bdf8',
+    color: '#FDFDFD',
     background: 'none',
     border: 'none',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    fontFamily: "'Playfair Display', Georgia, serif"
   };
 
   const navLinksStyle = {
@@ -44,8 +45,8 @@ export default function Navbar({ activeTab, setActiveTab, cartItemCount, searchQ
     fontWeight: '500',
     cursor: 'pointer',
     border: 'none',
-    backgroundColor: activeTab === tabName ? '#1e293b' : 'transparent',
-    color: activeTab === tabName ? '#38bdf8' : '#94a3b8',
+    backgroundColor: activeTab === tabName ? '#F4EC00' : 'transparent',
+    color: activeTab === tabName ? '#11140D' : '#9CA3AF',
     transition: 'all 0.2s'
   });
 
@@ -60,10 +61,10 @@ export default function Navbar({ activeTab, setActiveTab, cartItemCount, searchQ
     height: '36px',
     paddingLeft: '32px',
     paddingRight: '12px',
-    backgroundColor: '#1e293b',
-    border: '1px solid #334155',
+    backgroundColor: '#1B1E16',
+    border: '1px solid #2B3024',
     borderRadius: '6px',
-    color: '#ffffff',
+    color: '#FDFDFD',
     fontSize: '0.9rem',
     outline: 'none'
   };
@@ -72,7 +73,7 @@ export default function Navbar({ activeTab, setActiveTab, cartItemCount, searchQ
     position: 'absolute',
     top: '10px',
     left: '10px',
-    color: '#94a3b8',
+    color: '#9CA3AF',
     pointerEvents: 'none'
   };
 
@@ -80,19 +81,19 @@ export default function Navbar({ activeTab, setActiveTab, cartItemCount, searchQ
     display: 'flex',
     alignItems: 'center',
     gap: '10px',
-    backgroundColor: '#0284c7',
-    color: '#ffffff',
+    backgroundColor: '#F4EC00',
+    color: '#11140D',
     border: 'none',
     padding: '8px 16px',
     borderRadius: '6px',
-    fontWeight: '600',
+    fontWeight: 'bold',
     cursor: 'pointer',
     fontSize: '0.9rem'
   };
 
   const badgeStyle = {
-    backgroundColor: '#ffffff',
-    color: '#0369a1',
+    backgroundColor: '#11140D',
+    color: '#F4EC00',
     fontSize: '0.75rem',
     padding: '2px 6px',
     borderRadius: '999px',
@@ -108,7 +109,7 @@ export default function Navbar({ activeTab, setActiveTab, cartItemCount, searchQ
 
         <nav style={navLinksStyle}>
           <button onClick={() => setActiveTab('products')} style={getLinkButtonStyle('products')}>
-            Catalog
+            Products
           </button>
           <button onClick={() => setActiveTab('orders')} style={getLinkButtonStyle('orders')}>
             Order History
