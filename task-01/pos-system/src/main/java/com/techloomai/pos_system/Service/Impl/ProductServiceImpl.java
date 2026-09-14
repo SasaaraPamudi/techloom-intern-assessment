@@ -26,21 +26,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<ProductDTO> saveProduct(ProductDTO productDTO) {
-        // 1. Validation check
         if (productDTO == null || productDTO.getProduct_name() == null || productDTO.getProduct_name().trim().isEmpty()) {
             throw new IllegalArgumentException("Product name cannot be null or empty.");
         }
 
-        // 2. Map DTO to Entity
         ProductEntity entity = new ProductEntity();
         entity.setProduct_name(productDTO.getProduct_name());
         entity.setPrice(productDTO.getPrice());
         entity.setTotalStock(productDTO.getTotalStock());
 
-        // 3. Save entity
         ProductEntity savedEntity = productDao.save(entity);
 
-        // 4. Map back to DTO
         ProductDTO responseDto = new ProductDTO();
         responseDto.setProduct_id(savedEntity.getProduct_id());
         responseDto.setProduct_name(savedEntity.getProduct_name());

@@ -19,15 +19,12 @@ public class EntityDTOConversion {
 
     public EntityDTOConversion(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
-
-        // STANDARD strategy is far safer for camelCase <-> snake_case field mappings
         this.modelMapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.STANDARD)
                 .setFieldMatchingEnabled(true)
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE);
     }
 
-    // Product Mappings
     public ProductDTO toProductDTO(ProductEntity product) {
         if (product == null) return null;
         return modelMapper.map(product, ProductDTO.class);
@@ -42,13 +39,11 @@ public class EntityDTOConversion {
         return modelMapper.map(allProducts, new TypeToken<List<ProductDTO>>() {}.getType());
     }
 
-    // Reservation Mappings
     public ReservationDTO toReservationDTO(ReservationEntity reservation) {
         if (reservation == null) return null;
         return modelMapper.map(reservation, ReservationDTO.class);
     }
 
-    // Order Mappings
     public OrderDTO toOrderDTO(OrderEntity order) {
         if (order == null) return null;
         return modelMapper.map(order, OrderDTO.class);

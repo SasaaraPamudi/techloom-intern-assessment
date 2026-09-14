@@ -70,7 +70,6 @@ export default function InventoryPage() {
     const prodId = product.productId ?? product.product_id ?? product.id;
     setEditingId(prodId);
     setFormData({
-      // Fixed: safely checks camelCase, snake_case, and generic fallback fields
       product_name: product.productName || product.product_name || product.name || '',
       price: product.price ?? '',
       totalStock: product.totalStock ?? product.stock ?? '',
@@ -86,7 +85,6 @@ export default function InventoryPage() {
     <div className="min-h-screen bg-slate-950 text-slate-100 p-6 font-sans">
       <main className="max-w-6xl mx-auto space-y-6">
 
-        {/* Form Card */}
         <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-slate-200">
@@ -138,7 +136,6 @@ export default function InventoryPage() {
           </form>
         </div>
 
-        {/* Data Table Card */}
         <div className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden backdrop-blur">
           <table className="w-full text-left text-sm">
             <thead className="bg-slate-800/50 text-slate-400 border-b border-slate-800 uppercase text-xs">

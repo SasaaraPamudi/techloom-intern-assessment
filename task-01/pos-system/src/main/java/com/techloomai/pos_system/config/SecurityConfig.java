@@ -18,14 +18,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. Enable CORS using our custom configuration source
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // 2. Disable CSRF for REST APIs
                 .csrf(csrf -> csrf.disable())
-                // 3. Permit ALL requests to /api/v1/** without login
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/**").permitAll()
-                        .anyRequest().permitAll() // Temporarily permit all to bypass login entirely
+                        .anyRequest().permitAll()
                 );
 
         return http.build();

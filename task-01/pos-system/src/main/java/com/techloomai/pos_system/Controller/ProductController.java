@@ -2,7 +2,6 @@ package com.techloomai.pos_system.Controller;
 import com.techloomai.pos_system.DTO.ProductDTO;
 import com.techloomai.pos_system.Service.ProductService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,5 @@
 package com.techloomai.pos_system.DTO;
 
-import com.techloomai.pos_system.Entity.OrderEntity;
 import com.techloomai.pos_system.Entity.OrderStatus;
 import com.techloomai.pos_system.Entity.ReservationEntity;
 import lombok.AllArgsConstructor;
