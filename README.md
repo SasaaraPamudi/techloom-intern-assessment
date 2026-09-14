@@ -11,9 +11,15 @@ Software Engineer Intern — Practical Assessment
 ---
 
 ## 🛠️ Tech Stack
-* **Frontend:** React.js / Vite (Modern responsive component design)
+For task 01
+* **Frontend:** React.js / Vite 
 * **Backend:** Java 21 & Spring Boot 3.2.5
-* **Database:** PostgreSQL (Supabase)
+* **Database:** MySQL (Aiven)
+
+For task 02
+* **Frontend:** React.js / Vite 
+* **Backend:** Java 21 & Spring Boot 3.2.5
+* **Database:** PostgreSQL(Supabase)
 
 ---
 
