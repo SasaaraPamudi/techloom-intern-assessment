@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import InventoryPage from './pages/InventoryPage';
 import PosTerminalPage from './pages/PosTerminalPage';
-import CheckoutPage from './pages/CheckoutPage';
+import CheckoutPage from './pages/PaymentPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 
 export default function App() {
@@ -14,7 +14,7 @@ export default function App() {
         <Route path="/" element={<Navigate to="/products" />} />
         <Route path="/products" element={<InventoryPage />} />
         <Route path="/pos" element={<PosTerminalPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/checkout" element={<PaymentPage />} />
         <Route path="/orders" element={<OrderHistoryPage />} />
       </Routes>
     </BrowserRouter>
