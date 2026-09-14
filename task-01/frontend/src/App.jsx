@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import InventoryPage from './pages/InventoryPage';
 import PosTerminalPage from './pages/PosTerminalPage';
-import CheckoutPage from './pages/PaymentPage';
+import PaymentPage from './pages/PaymentPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 
 export default function App() {

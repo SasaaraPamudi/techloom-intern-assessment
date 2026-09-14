@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { simulatePayment } from '../api/posApi';
 
-export default function CheckoutPage() {
+export default function PaymentPage() {
   const [orderId, setOrderId] = useState('');
   const [paymentToken, setPaymentToken] = useState('TOK-12345');
   const [mode, setMode] = useState('SUCCESS');
