@@ -16,6 +16,19 @@ const cancelReservation = (id) => API.post(`/api/v1/reservations/${id}/cancel`);
 const simulatePayment = (data) => API.post('/api/v1/payments/simulate', data);
 const getOrders = () => API.get('/api/v1/orders');
 
+function Toast({ message, type, onClose }) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, 3000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div className={`fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl border shadow-2xl flex items-center gap-3 text-sm font-medium ${type === 'error' ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' : 'bg-[#1b201b] border-[#f3ff53]/30 text-[#f3ff53]'}`}>
+      <span>{message}</span>
+    </div>
+  );
+}
+
 function Navbar() {
   return (
     <nav className="bg-[#111411] border-b border-[#222722] px-8 py-5 flex justify-between items-center text-[#e4ede4] font-sans">
@@ -39,13 +52,14 @@ function InventoryPage() {
   const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({ product_name: '', price: '', totalStock: '' });
   const [editingId, setEditingId] = useState(null);
+  const [toast, setToast] = useState(null);
 
   const fetchInventory = async () => {
     try {
       const res = await getProducts();
       setProducts(res.data);
     } catch (err) {
-      alert('Failed to load inventory');
+      setToast({ message: 'Failed to load inventory', type: 'error' });
     }
   };
 
@@ -64,14 +78,16 @@ function InventoryPage() {
 
       if (editingId) {
         await updateProduct(editingId, payload);
+        setToast({ message: 'Product updated successfully!', type: 'success' });
       } else {
         await createProduct(payload);
+        setToast({ message: 'Product added successfully!', type: 'success' });
       }
       setFormData({ product_name: '', price: '', totalStock: '' });
       setEditingId(null);
       fetchInventory();
     } catch (err) {
-      alert('Error saving product');
+      setToast({ message: 'Error saving product', type: 'error' });
     }
   };
 
@@ -80,9 +96,10 @@ function InventoryPage() {
     if (window.confirm('Delete product?')) {
       try {
         await deleteProduct(id);
+        setToast({ message: 'Product deleted successfully!', type: 'success' });
         fetchInventory();
       } catch (err) {
-        alert('Failed to delete product');
+        setToast({ message: 'Failed to delete product', type: 'error' });
       }
     }
   };
@@ -93,9 +110,10 @@ function InventoryPage() {
     if (qty && !isNaN(qty)) {
       try {
         await addStock(id, parseInt(qty, 10));
+        setToast({ message: 'Stock added successfully!', type: 'success' });
         fetchInventory();
       } catch (err) {
-        alert('Failed to add stock');
+        setToast({ message: 'Failed to add stock', type: 'error' });
       }
     }
   };
@@ -246,6 +264,7 @@ function InventoryPage() {
         </div>
 
       </div>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }
@@ -254,6 +273,7 @@ function PosTerminalPage() {
   const [products, setProducts] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [toast, setToast] = useState(null);
 
   const [reservation, setReservation] = useState(() => {
     const saved = localStorage.getItem('active_reservation');
@@ -272,7 +292,7 @@ function PosTerminalPage() {
   useEffect(() => {
     getProducts()
       .then(res => setProducts(res.data))
-      .catch(err => console.error('Failed to load products', err));
+      .catch(err => setToast({ message: 'Failed to load products', type: 'error' }));
   }, []);
 
   useEffect(() => {
@@ -300,7 +320,7 @@ function PosTerminalPage() {
 
   const handleReserveAndCheckout = async () => {
     if (!selectedProductId) {
-      alert('Please select an item first.');
+      setToast({ message: 'Please select an item first.', type: 'error' });
       return;
     }
 
@@ -325,10 +345,10 @@ function PosTerminalPage() {
 
       localStorage.setItem('active_reservation', JSON.stringify(normalizedOrder));
       localStorage.setItem('reservation_expiry', expiryTime.toString());
+      setToast({ message: 'Reservation created successfully!', type: 'success' });
 
     } catch (err) {
-      console.error(err);
-      alert('Failed to create reservation. Check console for details.');
+      setToast({ message: 'Failed to create reservation.', type: 'error' });
     }
   };
 
@@ -407,6 +427,7 @@ function PosTerminalPage() {
         )}
 
       </div>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }
@@ -417,6 +438,7 @@ function PaymentPage() {
   const [mode, setMode] = useState('SUCCESS');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     const savedReservation = localStorage.getItem('active_reservation');
@@ -428,14 +450,14 @@ function PaymentPage() {
           setOrderId(id.toString());
         }
       } catch (e) {
-        console.error(e);
+        setToast({ message: 'Failed to read saved reservation', type: 'error' });
       }
     }
   }, []);
 
   const handlePayment = async () => {
     if (!orderId) {
-      alert('Please enter a valid Order ID first!');
+      setToast({ message: 'Please enter a valid Order ID first!', type: 'error' });
       return;
     }
     setLoading(true);
@@ -446,14 +468,14 @@ function PaymentPage() {
         mode
       });
       setResult(res.data);
+      setToast({ message: 'Payment completed successfully!', type: 'success' });
 
       if (mode === 'SUCCESS') {
         localStorage.removeItem('active_reservation');
         localStorage.removeItem('reservation_expiry');
       }
     } catch (err) {
-      console.error(err);
-      alert('Payment execution failed or rejected.');
+      setToast({ message: 'Payment execution failed or rejected.', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -541,6 +563,7 @@ function PaymentPage() {
           </div>
         )}
       </div>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }
@@ -548,6 +571,7 @@ function PaymentPage() {
 function OrderHistoryPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState(null);
 
   const fetchOrders = async () => {
     try {
@@ -555,8 +579,7 @@ function OrderHistoryPage() {
       const res = await getOrders();
       setOrders(res.data);
     } catch (err) {
-      console.error(err);
-      alert('Failed to load orders');
+      setToast({ message: 'Failed to load orders', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -568,10 +591,10 @@ function OrderHistoryPage() {
     if (window.confirm('Cancel order reservation and restore stock?')) {
       try {
         await cancelReservation(reservationId);
+        setToast({ message: 'Order reservation cancelled!', type: 'success' });
         fetchOrders();
       } catch (err) {
-        console.error(err);
-        alert('Failed to cancel reservation');
+        setToast({ message: 'Failed to cancel reservation', type: 'error' });
       }
     }
   };
@@ -666,6 +689,7 @@ function OrderHistoryPage() {
         </div>
 
       </div>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
 }
