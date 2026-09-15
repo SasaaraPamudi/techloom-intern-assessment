@@ -18,13 +18,18 @@ const getOrders = () => API.get('/api/v1/orders');
 
 function Navbar() {
   return (
-    <nav className="bg-slate-900 border-b border-slate-800 px-6 py-4 flex justify-between items-center text-slate-100 font-sans">
-      <h1 className="font-bold text-lg text-blue-400">Techloom POS</h1>
-      <div className="flex gap-6 text-sm font-medium">
-        <Link to="/products" className="hover:text-blue-400 transition">Inventory</Link>
-        <Link to="/pos" className="hover:text-blue-400 transition">POS Terminal</Link>
-        <Link to="/checkout" className="hover:text-blue-400 transition">Checkout</Link>
-        <Link to="/orders" className="hover:text-blue-400 transition">Orders</Link>
+    <nav className="bg-[#111411] border-b border-[#222722] px-8 py-5 flex justify-between items-center text-[#e4ede4] font-sans">
+      <div className="flex items-center gap-2">
+        <span className="font-bold text-xl text-[#f3ff53] tracking-wide">Techloom POS</span>
+      </div>
+      <div className="flex gap-8 text-sm font-medium items-center">
+        <Link to="/products" className="hover:text-[#f3ff53] transition">Inventory</Link>
+        <Link to="/pos" className="hover:text-[#f3ff53] transition">POS Terminal</Link>
+        <Link to="/checkout" className="hover:text-[#f3ff53] transition">Checkout</Link>
+        <Link to="/orders" className="hover:text-[#f3ff53] transition">Orders</Link>
+        <Link to="/pos" className="bg-[#f3ff53] text-[#111411] hover:bg-[#e2ee42] font-semibold px-5 py-2.5 rounded-full transition shadow-lg shadow-[#f3ff53]/10">
+          Terminal
+        </Link>
       </div>
     </nav>
   );
@@ -111,131 +116,135 @@ function InventoryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[#141714] text-[#e4ede4] font-sans">
       <Navbar />
-      <div className="p-6 font-sans">
-        <main className="max-w-6xl mx-auto space-y-6">
+      <div className="p-8 max-w-6xl mx-auto space-y-8">
 
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-slate-200">
-                {editingId ? 'Edit Product' : 'Add New Product'}
-              </h2>
-              {editingId && (
-                <button
-                  type="button"
-                  onClick={handleCancelEdit}
-                  className="text-xs text-slate-400 hover:text-slate-200 underline"
-                >
-                  Cancel Edit
-                </button>
-              )}
-            </div>
+        <div className="space-y-2 pt-4">
+          <h2 className="text-3xl font-serif font-bold text-white tracking-tight">Inventory Management</h2>
+          <p className="text-[#9ca3af] text-sm">Manage stock levels, update pricing, and seamlessly handle new products.</p>
+        </div>
 
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <input
-                type="text"
-                placeholder="Product Name"
-                value={formData.product_name}
-                onChange={(e) => setFormData({ ...formData, product_name: e.target.value })}
-                required
-                className="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white placeholder-slate-400"
-              />
-              <input
-                type="number"
-                step="0.01"
-                placeholder="Price ($)"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                required
-                className="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white placeholder-slate-400"
-              />
-              <input
-                type="number"
-                placeholder="Stock Quantity"
-                value={formData.totalStock}
-                onChange={(e) => setFormData({ ...formData, totalStock: e.target.value })}
-                required
-                className="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white placeholder-slate-400"
-              />
+        <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl p-6 shadow-xl">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-lg font-semibold text-white">
+              {editingId ? 'Edit Product Item' : 'Add New Product'}
+            </h3>
+            {editingId && (
               <button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 px-4 rounded-lg transition shadow-md shadow-blue-600/20 active:scale-95"
+                type="button"
+                onClick={handleCancelEdit}
+                className="text-xs text-[#9ca3af] hover:text-white underline"
               >
-                {editingId ? 'Update Product' : '+ Add Product'}
+                Cancel Edit
               </button>
-            </form>
+            )}
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden backdrop-blur">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-slate-800/50 text-slate-400 border-b border-slate-800 uppercase text-xs">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input
+              type="text"
+              placeholder="Product Name"
+              value={formData.product_name}
+              onChange={(e) => setFormData({ ...formData, product_name: e.target.value })}
+              required
+              className="bg-[#141714] border border-[#2b332b] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3ff53]/50 text-white placeholder-[#6b7280]"
+            />
+            <input
+              type="number"
+              step="0.01"
+              placeholder="Price ($)"
+              value={formData.price}
+              onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+              required
+              className="bg-[#141714] border border-[#2b332b] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3ff53]/50 text-white placeholder-[#6b7280]"
+            />
+            <input
+              type="number"
+              placeholder="Stock Quantity"
+              value={formData.totalStock}
+              onChange={(e) => setFormData({ ...formData, totalStock: e.target.value })}
+              required
+              className="bg-[#141714] border border-[#2b332b] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3ff53]/50 text-white placeholder-[#6b7280]"
+            />
+            <button
+              type="submit"
+              className="bg-[#f3ff53] hover:bg-[#e2ee42] text-[#141714] font-bold py-3 px-4 rounded-xl transition shadow-md shadow-[#f3ff53]/10 active:scale-95"
+            >
+              {editingId ? 'Update Product' : '+ Add Product'}
+            </button>
+          </form>
+        </div>
+
+        <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl overflow-hidden shadow-xl">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-[#141714]/80 text-[#9ca3af] border-b border-[#2b332b] uppercase text-xs tracking-wider font-semibold">
+              <tr>
+                <th className="px-6 py-4">ID</th>
+                <th className="px-6 py-4">Name</th>
+                <th className="px-6 py-4">Price</th>
+                <th className="px-6 py-4">Stock Status</th>
+                <th className="px-6 py-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#2b332b]">
+              {products.length === 0 ? (
                 <tr>
-                  <th className="px-6 py-4">ID</th>
-                  <th className="px-6 py-4">Name</th>
-                  <th className="px-6 py-4">Price</th>
-                  <th className="px-6 py-4">Stock Status</th>
-                  <th className="px-6 py-4 text-right">Actions</th>
+                  <td colSpan="5" className="px-6 py-12 text-center text-[#6b7280]">
+                    No products found in inventory.
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300">
-                {products.length === 0 ? (
-                  <tr>
-                    <td colSpan="5" className="px-6 py-8 text-center text-slate-500">
-                      No products found in inventory.
-                    </td>
-                  </tr>
-                ) : (
-                  products.map((p, index) => {
-                    const prodId = p.productId ?? p.product_id ?? p.id ?? index;
-                    const prodName = p.productName ?? p.product_name ?? p.name ?? 'Unknown';
-                    const prodStock = p.totalStock ?? p.stock ?? 0;
+              ) : (
+                products.map((p, index) => {
+                  const prodId = p.productId ?? p.product_id ?? p.id ?? index;
+                  const prodName = p.productName ?? p.product_name ?? p.name ?? 'Unknown';
+                  const prodStock = p.totalStock ?? p.stock ?? 0;
 
-                    return (
-                      <tr key={prodId} className="hover:bg-slate-800/30 transition">
-                        <td className="px-6 py-4 font-mono text-slate-400">#{prodId}</td>
-                        <td className="px-6 py-4 font-medium text-white">{prodName}</td>
-                        <td className="px-6 py-4">${Number(p.price || 0).toFixed(2)}</td>
-                        <td className="px-6 py-4">
-                          {prodStock <= 5 ? (
-                            <span className="inline-flex items-center gap-1.5 bg-red-500/10 text-red-400 text-xs px-2.5 py-1 rounded-full border border-red-500/20 font-medium">
-                              <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-                              {prodStock} in stock (Low Stock)
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-full border border-emerald-500/20 font-medium">
-                              {prodStock} in stock
-                            </span>
-                          )}
-                        </td>
-                        <td className="px-6 py-4 text-right space-x-2">
-                          <button
-                            onClick={() => handleEdit(p)}
-                            className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-md text-xs font-medium transition border border-slate-700"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleAddStock(prodId)}
-                            className="px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 rounded-md text-xs font-medium border border-blue-500/20 transition"
-                          >
-                            + Restock
-                          </button>
-                          <button
-                            onClick={() => handleDelete(prodId)}
-                            className="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-md text-xs font-medium border border-red-500/20 transition"
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })
-                )}
-              </tbody>
-            </table>
-          </div>
-        </main>
+                  return (
+                    <tr key={prodId} className="hover:bg-[#222722]/40 transition">
+                      <td className="px-6 py-4 font-mono text-[#9ca3af]">#{prodId}</td>
+                      <td className="px-6 py-4 font-semibold text-white">{prodName}</td>
+                      <td className="px-6 py-4 text-[#f3ff53] font-mono">${Number(p.price || 0).toFixed(2)}</td>
+                      <td className="px-6 py-4">
+                        {prodStock <= 5 ? (
+                          <span className="inline-flex items-center gap-1.5 bg-rose-500/10 text-rose-400 text-xs px-3 py-1 rounded-full border border-rose-500/20 font-medium">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" />
+                            {prodStock} left (Low Stock)
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 bg-[#f3ff53]/10 text-[#f3ff53] text-xs px-3 py-1 rounded-full border border-[#f3ff53]/20 font-medium">
+                            {prodStock} in stock
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-right space-x-2">
+                        <button
+                          onClick={() => handleEdit(p)}
+                          className="px-3 py-1.5 bg-[#141714] hover:bg-[#2b332b] text-white rounded-lg text-xs font-medium transition border border-[#2b332b]"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleAddStock(prodId)}
+                          className="px-3 py-1.5 bg-[#f3ff53]/10 hover:bg-[#f3ff53]/20 text-[#f3ff53] rounded-lg text-xs font-medium border border-[#f3ff53]/20 transition"
+                        >
+                          + Restock
+                        </button>
+                        <button
+                          onClick={() => handleDelete(prodId)}
+                          className="px-3 py-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-lg text-xs font-medium border border-rose-500/20 transition"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
   );
@@ -330,74 +339,73 @@ function PosTerminalPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[#141714] text-[#e4ede4] font-sans">
       <Navbar />
-      <div className="p-6 font-sans">
-        <main className="max-w-4xl mx-auto space-y-6">
+      <div className="p-8 max-w-4xl mx-auto space-y-8">
 
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur space-y-1">
-            <h2 className="text-xl font-semibold text-white">POS Terminal & Reservation</h2>
-          </div>
+        <div className="space-y-2 pt-4">
+          <h2 className="text-3xl font-serif font-bold text-white tracking-tight">POS Terminal</h2>
+          <p className="text-[#9ca3af] text-sm">Select inventory items and secure live checkout sessions.</p>
+        </div>
 
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-            <div className="space-y-1.5 md:col-span-1">
-              <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">Select Item</label>
-              <select
-                value={selectedProductId}
-                onChange={(e) => setSelectedProductId(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white"
-              >
-                <option value=""> Choose Product </option>
-                {products.map(p => {
-                  const id = p.productId ?? p.product_id ?? p.id;
-                  const name = p.productName ?? p.product_name ?? p.name;
-                  const stock = p.totalStock ?? p.stock ?? 0;
-                  return (
-                    <option key={id} value={id}>
-                      ID: {id} — {name} ({stock} in stock)
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">Quantity</label>
-              <input
-                type="number"
-                min="1"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white"
-              />
-            </div>
-
-            <button
-              onClick={handleReserveAndCheckout}
-              className="bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 px-4 rounded-lg transition shadow-md shadow-blue-600/20 active:scale-95"
+        <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-end shadow-xl">
+          <div className="space-y-2 md:col-span-1">
+            <label className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider">Select Product</label>
+            <select
+              value={selectedProductId}
+              onChange={(e) => setSelectedProductId(e.target.value)}
+              className="w-full bg-[#141714] border border-[#2b332b] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3ff53]/50 text-white"
             >
-              Reserve & Checkout
-            </button>
+              <option value=""> Choose Product </option>
+              {products.map(p => {
+                const id = p.productId ?? p.product_id ?? p.id;
+                const name = p.productName ?? p.product_name ?? p.name;
+                const stock = p.totalStock ?? p.stock ?? 0;
+                return (
+                  <option key={id} value={id}>
+                    ID: {id} — {name} ({stock} available)
+                  </option>
+                );
+              })}
+            </select>
           </div>
 
-          {reservation && timeLeft > 0 && (
-            <div className="bg-blue-950/30 border border-blue-500/30 rounded-2xl p-6 flex justify-between items-center backdrop-blur">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-blue-400">Reservation #{reservation.resId || reservation.reservationId || reservation.id}</span>
-                  <span className="bg-emerald-500/10 text-emerald-400 text-xs px-2 py-0.5 rounded-full border border-emerald-500/20 font-medium">ACTIVE</span>
-                </div>
-                <p className="text-xs text-slate-400">Complete customer transaction under <strong className="text-slate-200">Mock Payment</strong> before timer expires.</p>
-              </div>
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider">Quantity</label>
+            <input
+              type="number"
+              min="1"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              className="w-full bg-[#141714] border border-[#2b332b] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3ff53]/50 text-white"
+            />
+          </div>
 
-              <div className="text-right">
-                <span className="text-xs font-medium text-slate-400 uppercase tracking-wider block">Time Remaining</span>
-                <span className="text-2xl font-mono font-bold text-blue-400">{formatTime(timeLeft)}</span>
+          <button
+            onClick={handleReserveAndCheckout}
+            className="bg-[#f3ff53] hover:bg-[#e2ee42] text-[#141714] font-bold py-3 px-4 rounded-xl transition shadow-lg shadow-[#f3ff53]/10 active:scale-95"
+          >
+            Reserve & Checkout
+          </button>
+        </div>
+
+        {reservation && timeLeft > 0 && (
+          <div className="bg-[#1b201b] border border-[#f3ff53]/30 rounded-2xl p-6 flex justify-between items-center shadow-xl">
+            <div className="space-y-1">
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-semibold text-white">Reservation #{reservation.resId || reservation.reservationId || reservation.id}</span>
+                <span className="bg-[#f3ff53]/10 text-[#f3ff53] text-xs px-2.5 py-0.5 rounded-full border border-[#f3ff53]/20 font-medium">ACTIVE</span>
               </div>
+              <p className="text-xs text-[#9ca3af]">Complete the payment process before the reservation timer expires.</p>
             </div>
-          )}
 
-        </main>
+            <div className="text-right">
+              <span className="text-xs font-medium text-[#9ca3af] uppercase tracking-wider block">Time Remaining</span>
+              <span className="text-3xl font-mono font-bold text-[#f3ff53]">{formatTime(timeLeft)}</span>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );
@@ -420,7 +428,7 @@ function PaymentPage() {
           setOrderId(id.toString());
         }
       } catch (e) {
-        console.error('Failed to parse active reservation from localStorage', e);
+        console.error(e);
       }
     }
   }, []);
@@ -452,86 +460,86 @@ function PaymentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[#141714] text-[#e4ede4] font-sans">
       <Navbar />
-      <div className="p-6 font-sans">
-        <main className="max-w-2xl mx-auto space-y-6">
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur space-y-2">
-            <h2 className="text-xl font-semibold text-white">Secure Checkout</h2>
+      <div className="p-8 max-w-2xl mx-auto space-y-8">
+
+        <div className="space-y-2 pt-4">
+          <h2 className="text-3xl font-serif font-bold text-white tracking-tight">Secure Checkout</h2>
+          <p className="text-[#9ca3af] text-sm">Simulate payment gateways and finalize order transactions.</p>
+        </div>
+
+        <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl p-8 space-y-6 shadow-xl">
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider">Order ID</label>
+            <input
+              type="number"
+              placeholder="e.g., 1, 2, 3..."
+              value={orderId}
+              onChange={e => setOrderId(e.target.value)}
+              required
+              className="w-full bg-[#141714] border border-[#2b332b] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3ff53]/50 text-white placeholder-[#6b7280]"
+            />
+            <p className="text-xs text-[#6b7280]">Auto-populated from active terminal reservation.</p>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">Order ID</label>
-              <input
-                type="number"
-                placeholder="e.g., 1, 2, 3..."
-                value={orderId}
-                onChange={e => setOrderId(e.target.value)}
-                required
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white placeholder-slate-500"
-              />
-              <p className="text-xs text-slate-500">Auto-filled from your active POS reservation or type manually.</p>
-            </div>
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider">Payment Token</label>
+            <input
+              type="text"
+              placeholder="TOK-12345"
+              value={paymentToken}
+              onChange={e => setPaymentToken(e.target.value)}
+              required
+              className="w-full bg-[#141714] border border-[#2b332b] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3ff53]/50 text-white placeholder-[#6b7280]"
+            />
+          </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">Payment Token</label>
-              <input
-                type="text"
-                placeholder="TOK-12345"
-                value={paymentToken}
-                onChange={e => setPaymentToken(e.target.value)}
-                required
-                className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white placeholder-slate-500"
-              />
-            </div>
-
-            <div className="space-y-1.5 pt-2">
-              <label className="text-xs font-medium text-slate-300 uppercase tracking-wider">Scenario Mode</label>
-              <div className="grid grid-cols-3 gap-3">
-                {['SUCCESS', 'FAILURE', 'TIMEOUT'].map((m) => (
-                  <label
-                    key={m}
-                    className={`flex items-center justify-center gap-2 p-3 rounded-lg border cursor-pointer transition text-sm font-medium ${
-                      mode === m
-                        ? 'bg-blue-600/20 border-blue-500 text-blue-400'
-                        : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:bg-slate-800'
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="paymentMode"
-                      value={m}
-                      checked={mode === m}
-                      onChange={e => setMode(e.target.value)}
-                      className="hidden"
-                    />
-                    {m}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-4 flex flex-col gap-3">
-              <button
-                onClick={handlePayment}
-                disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-3 px-4 rounded-lg transition shadow-md shadow-blue-600/20 active:scale-95 disabled:opacity-50"
-              >
-                {loading ? 'Processing...' : 'Pay'}
-              </button>
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider">Scenario Mode</label>
+            <div className="grid grid-cols-3 gap-4">
+              {['SUCCESS', 'FAILURE', 'TIMEOUT'].map((m) => (
+                <label
+                  key={m}
+                  className={`flex items-center justify-center gap-2 p-3.5 rounded-xl border cursor-pointer transition text-sm font-semibold ${
+                    mode === m
+                      ? 'bg-[#f3ff53]/10 border-[#f3ff53] text-[#f3ff53]'
+                      : 'bg-[#141714] border-[#2b332b] text-[#9ca3af] hover:bg-[#222722]'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="paymentMode"
+                    value={m}
+                    checked={mode === m}
+                    onChange={e => setMode(e.target.value)}
+                    className="hidden"
+                  />
+                  {m}
+                </label>
+              ))}
             </div>
           </div>
 
-          {result && (
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-2">
-              <h4 className="text-sm font-semibold text-emerald-400 uppercase tracking-wider">Response:</h4>
-              <pre className="bg-slate-950 p-4 rounded-xl text-xs font-mono text-slate-300 overflow-x-auto border border-slate-800">
-                {JSON.stringify(result, null, 2)}
-              </pre>
-            </div>
-          )}
-        </main>
+          <div className="pt-2">
+            <button
+              onClick={handlePayment}
+              disabled={loading}
+              className="w-full bg-[#f3ff53] hover:bg-[#e2ee42] text-[#141714] font-bold py-3.5 px-4 rounded-xl transition shadow-lg shadow-[#f3ff53]/10 active:scale-95 disabled:opacity-50"
+            >
+              {loading ? 'Processing...' : 'Complete Payment'}
+            </button>
+          </div>
+        </div>
+
+        {result && (
+          <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl p-6 space-y-3 shadow-xl">
+            <h4 className="text-xs font-semibold text-[#f3ff53] uppercase tracking-wider">Transaction Response:</h4>
+            <pre className="bg-[#141714] p-4 rounded-xl text-xs font-mono text-[#e4ede4] overflow-x-auto border border-[#2b332b]">
+              {JSON.stringify(result, null, 2)}
+            </pre>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -581,84 +589,82 @@ function OrderHistoryPage() {
       case 'EXPIRED':
         return 'bg-rose-500/10 text-rose-400 border-rose-500/20';
       default:
-        return 'bg-slate-800 text-slate-400 border-slate-700';
+        return 'bg-[#141714] text-[#9ca3af] border-[#2b332b]';
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-[#141714] text-[#e4ede4] font-sans">
       <Navbar />
-      <div className="p-6 font-sans">
-        <main className="max-w-5xl mx-auto space-y-6">
+      <div className="p-8 max-w-5xl mx-auto space-y-8">
 
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur flex justify-between items-center">
-            <div className="space-y-1">
-              <h2 className="text-xl font-semibold text-white">Order History & Lifecycle</h2>
-              <p className="text-sm text-slate-400">Track all transaction lifecycles, payment tokens, and manage active order states.</p>
+        <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl p-8 flex justify-between items-center shadow-xl">
+          <div className="space-y-1">
+            <h2 className="text-3xl font-serif font-bold text-white tracking-tight">Order History</h2>
+            <p className="text-sm text-[#9ca3af]">Track transactions, review payment tokens, and manage active states.</p>
+          </div>
+          <button
+            onClick={fetchOrders}
+            className="bg-[#141714] hover:bg-[#2b332b] text-white text-xs font-semibold py-2.5 px-5 rounded-xl transition border border-[#2b332b] active:scale-95"
+          >
+            Refresh List
+          </button>
+        </div>
+
+        <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl overflow-hidden shadow-xl">
+          {loading ? (
+            <div className="p-12 text-center text-sm text-[#9ca3af]">Loading order history...</div>
+          ) : orders.length === 0 ? (
+            <div className="p-12 text-center text-sm text-[#9ca3af]">No orders found. Process a checkout first!</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-[#2b332b] bg-[#141714]/80 text-xs uppercase tracking-wider text-[#9ca3af] font-semibold">
+                    <th className="p-4 px-6">Order ID</th>
+                    <th className="p-4">Payment Token</th>
+                    <th className="p-4">Total Amount</th>
+                    <th className="p-4">Status</th>
+                    <th className="p-4 px-6 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#2b332b] text-sm">
+                  {orders.map(o => {
+                    const id = o.orderId || o.id;
+                    const resId = o.reservationId?.resId || o.reservationId;
+                    const token = o.paymentToken || 'N/A';
+                    const amount = o.totalAmount ? Number(o.totalAmount).toFixed(2) : '0.00';
+                    const status = o.status || 'PENDING';
+
+                    return (
+                      <tr key={id} className="hover:bg-[#222722]/40 transition">
+                        <td className="p-4 px-6 font-mono font-medium text-white">#{id}</td>
+                        <td className="p-4 font-mono text-xs text-[#9ca3af]">{token}</td>
+                        <td className="p-4 font-semibold text-[#f3ff53]">${amount}</td>
+                        <td className="p-4">
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getStatusBadgeStyle(status)}`}>
+                            {status}
+                          </span>
+                        </td>
+                        <td className="p-4 px-6 text-right">
+                          {['PENDING', 'RESERVED'].includes(status) && (
+                            <button
+                              onClick={() => handleCancel(resId)}
+                              className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-xs font-semibold py-1.5 px-3.5 rounded-lg border border-rose-500/30 transition active:scale-95"
+                            >
+                              Cancel Order
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-            <button
-              onClick={fetchOrders}
-              className="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium py-2 px-4 rounded-lg transition border border-slate-700 active:scale-95"
-            >
-              Refresh List
-            </button>
-          </div>
+          )}
+        </div>
 
-          <div className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden backdrop-blur shadow-xl">
-            {loading ? (
-              <div className="p-12 text-center text-sm text-slate-400">Loading order history...</div>
-            ) : orders.length === 0 ? (
-              <div className="p-12 text-center text-sm text-slate-400">No orders found. Process a checkout first!</div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-slate-800 bg-slate-900/40 text-xs uppercase tracking-wider text-slate-400 font-medium">
-                      <th className="p-4">Order ID</th>
-                      <th className="p-4">Payment Token</th>
-                      <th className="p-4">Total Amount</th>
-                      <th className="p-4">Status</th>
-                      <th className="p-4 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-800/60 text-sm">
-                    {orders.map(o => {
-                      const id = o.orderId || o.id;
-                      const resId = o.reservationId?.resId || o.reservationId;
-                      const token = o.paymentToken || 'N/A';
-                      const amount = o.totalAmount ? Number(o.totalAmount).toFixed(2) : '0.00';
-                      const status = o.status || 'PENDING';
-
-                      return (
-                        <tr key={id} className="hover:bg-slate-800/30 transition">
-                          <td className="p-4 font-mono font-medium text-slate-300">#{id}</td>
-                          <td className="p-4 font-mono text-xs text-slate-400">{token}</td>
-                          <td className="p-4 font-semibold text-white">${amount}</td>
-                          <td className="p-4">
-                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusBadgeStyle(status)}`}>
-                              {status}
-                            </span>
-                          </td>
-                          <td className="p-4 text-right">
-                            {['PENDING', 'RESERVED'].includes(status) && (
-                              <button
-                                onClick={() => handleCancel(resId)}
-                                className="bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white text-xs font-medium py-1.5 px-3 rounded-lg border border-rose-500/30 transition active:scale-95"
-                              >
-                                Cancel Order
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-
-        </main>
       </div>
     </div>
   );
