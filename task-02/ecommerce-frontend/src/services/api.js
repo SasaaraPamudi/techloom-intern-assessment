@@ -1,23 +1,23 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:8081/api',
+  baseURL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080',
 });
 
-export const getProducts = () => API.get('/products');
-export const getProductById = (id) => API.get(`/products/${id}`);
+export const getProducts = () => API.get('/api/v1/products');
+export const getProductById = (id) => API.get(`/api/v1/products/${id}`);
 
-export const getCart = (sessionId) => API.get(`/cart/${sessionId}`);
+export const getCart = (sessionId) => API.get(`/api/v1/cart/${sessionId}`);
 export const addToCart = (sessionId, productId, quantity) =>
-  API.post('/cart/add', { sessionId, productId, quantity });
+  API.post('/api/v1/cart/add', { sessionId, productId, quantity });
 
 export const checkoutCart = (sessionId) =>
-  API.post('/orders/checkout', { sessionId });
+  API.post('/api/v1/orders/checkout', { sessionId });
 
 export const processPayment = (orderId, paymentToken, paymentStatusSimulation) =>
-  API.post('/orders/payment', { orderId, paymentToken, paymentStatusSimulation });
+  API.post('/api/v1/orders/payment', { orderId, paymentToken, paymentStatusSimulation });
 
-export const getOrderHistory = (sessionId) => API.get(`/orders/history/${sessionId}`);
+export const getOrderHistory = (sessionId) => API.get(`/api/v1/orders/history/${sessionId}`);
 
 export const cancelOrder = (orderId, reason = "User requested cancellation") =>
-  API.post(`/orders/cancel/${orderId}`, { reason });
+  API.post(`/api/v1/orders/cancel/${orderId}`, { reason });
