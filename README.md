@@ -40,8 +40,17 @@ For task 02
 Create an `application.properties` file in `task-01/pos-system/src/main/resources/` and `task-02/ecommerce-backend/src/main/resources/` using this template:
 ```properties
 server.port=8080 (or 8081)
-spring.datasource.url=jdbc:postgresql://your-db-host:5432/postgres
-spring.datasource.username=postgres
-spring.datasource.password=your_secure_password
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
+
+Task 01
+# Aiven MySQL Connection
+spring.datasource.url=jdbc:mysql://mysql-220d7b07-pamudisasaara-5440.j.aivencloud.com:15949/defaultdb?sslmode=REQUIRED
+spring.datasource.username=avnadmin
+spring.datasource.password=AVNS_rYMBfE-vIErDxiI-qvR
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+Task 02 
+# Supabase PostgreSQL Database Connection
+spring.datasource.url=jdbc:postgresql://aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres
+spring.datasource.username=postgres.ggcpbhcedbyepgxlqzzi
+spring.datasource.password={PASSWORD}
+spring.datasource.driver-class-name=org.postgresql.Driver
