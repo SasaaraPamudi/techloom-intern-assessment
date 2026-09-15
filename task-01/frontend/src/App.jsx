@@ -6,15 +6,15 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080'
 });
 
-const getProducts = () => API.get('/products');
-const createProduct = (data) => API.post('/products', data);
-const updateProduct = (id, data) => API.put(`/products/${id}`, data);
-const deleteProduct = (id) => API.delete(`/products/${id}`);
-const addStock = (id, quantity) => API.patch(`/products/${id}/stock?quantity=${quantity}`);
-const createReservation = (data) => API.post('/reservations', data);
-const cancelReservation = (id) => API.post(`/reservations/${id}/cancel`);
-const simulatePayment = (data) => API.post('/payments/simulate', data);
-const getOrders = () => API.get('/orders');
+const getProducts = () => API.get('/api/v1/products');
+const createProduct = (data) => API.post('/api/v1/products', data);
+const updateProduct = (id, data) => API.put(`/api/v1/products/${id}`, data);
+const deleteProduct = (id) => API.delete(`/api/v1/products/${id}`);
+const addStock = (id, quantity) => API.patch(`/api/v1/products/${id}/stock?quantity=${quantity}`);
+const createReservation = (data) => API.post('/api/v1/reservations', data);
+const cancelReservation = (id) => API.post(`/api/v1/reservations/${id}/cancel`);
+const simulatePayment = (data) => API.post('/api/v1/payments/simulate', data);
+const getOrders = () => API.get('/api/v1/orders');
 
 function Navbar() {
   return (
