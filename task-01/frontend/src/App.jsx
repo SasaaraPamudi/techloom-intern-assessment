@@ -33,7 +33,7 @@ function Navbar() {
   return (
     <nav className="bg-[#111411] border-b border-[#222722] px-8 py-5 flex justify-between items-center text-[#e4ede4] font-sans">
       <div className="flex items-center gap-2">
-        <span className="font-bold text-xl text-[#f3ff53] tracking-wide">Techloom POS</span>
+        <span className="font-bold text-xl text-[#f3ff53] tracking-wide">Techloom POS System</span>
       </div>
       <div className="flex gap-8 text-sm font-medium items-center">
         <Link to="/products" className="hover:text-[#f3ff53] transition">Inventory</Link>
