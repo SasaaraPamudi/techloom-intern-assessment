@@ -5,7 +5,7 @@ Software Engineer Intern — Practical Assessment
 
 ## 🚀 Live Deployments & Repository
 * **GitHub Repository:** [https://github.com/SasaaraPamudi/techloom-intern-assessment](https://github.com/SasaaraPamudi/techloom-intern-assessment)
-* **Task 01 Live URL:** [[Insert your Task 01 Deployment Link Here]](https://techloom-intern-assessment-knf6ps18t-sasaara.vercel.app/products)
+* **Task 01 Live URL:** https://techloom-intern-assessment-knf6ps18t-sasaara.vercel.app/products
 * **Task 02 Live URL:** [Insert your Task 02 Deployment Link Here]
 
 ---
