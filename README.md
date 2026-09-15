@@ -52,5 +52,5 @@ Task 02
 # Supabase PostgreSQL Database Connection
 spring.datasource.url=jdbc:postgresql://aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres
 spring.datasource.username=postgres.ggcpbhcedbyepgxlqzzi
-spring.datasource.password={PASSWORD}
+spring.datasource.password=TNnbKGaPN0GKRo17
 spring.datasource.driver-class-name=org.postgresql.Driver
