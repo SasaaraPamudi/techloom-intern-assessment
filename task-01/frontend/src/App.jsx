@@ -29,6 +29,67 @@ function Toast({ message, type, onClose }) {
   );
 }
 
+function RestockModal({ isOpen, productName, onClose, onSubmit }) {
+  const [qty, setQty] = useState('');
+
+  useEffect(() => {
+    if (isOpen) setQty('');
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const parsed = parseInt(qty, 10);
+    if (!isNaN(parsed) && parsed > 0) {
+      onSubmit(parsed);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl p-6 w-full max-w-md shadow-2xl space-y-6 animate-in fade-in zoom-in-95 duration-150">
+        <div className="space-y-1">
+          <h3 className="text-xl font-serif font-bold text-white tracking-tight">Restock Product</h3>
+          <p className="text-xs text-[#9ca3af]">Add inventory quantity for <span className="text-[#f3ff53] font-medium">{productName || 'Item'}</span>.</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider">Quantity to Add</label>
+            <input
+              type="number"
+              min="1"
+              placeholder="e.g., 50"
+              value={qty}
+              onChange={(e) => setQty(e.target.value)}
+              autoFocus
+              required
+              className="w-full bg-[#141714] border border-[#2b332b] rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#f3ff53]/50 text-white placeholder-[#6b7280]"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2.5 bg-[#141714] hover:bg-[#2b332b] text-[#9ca3af] hover:text-white rounded-xl text-xs font-semibold transition border border-[#2b332b]"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-5 py-2.5 bg-[#f3ff53] hover:bg-[#e2ee42] text-[#141714] rounded-xl text-xs font-bold transition shadow-lg shadow-[#f3ff53]/10 active:scale-95"
+            >
+              Confirm Restock
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 function Navbar() {
   return (
     <nav className="bg-[#111411] border-b border-[#222722] px-8 py-5 flex justify-between items-center text-[#e4ede4] font-sans">
@@ -54,6 +115,10 @@ function InventoryPage() {
   const [editingId, setEditingId] = useState(null);
   const [toast, setToast] = useState(null);
 
+  // Restock modal state
+  const [restockModalOpen, setRestockModalOpen] = useState(false);
+  const [selectedRestockProduct, setSelectedRestockProduct] = useState(null);
+
   const fetchInventory = async () => {
     try {
       const res = await getProducts();
@@ -75,6 +140,7 @@ function InventoryPage() {
         price: parseFloat(formData.price),
         totalStock: parseInt(formData.totalStock, 10),
       };
+
       if (editingId) {
         await updateProduct(editingId, payload);
         setToast({ message: 'Product updated successfully!', type: 'success' });
@@ -103,17 +169,23 @@ function InventoryPage() {
     }
   };
 
-  const handleAddStock = async (id) => {
-    if (!id) return;
-    const qty = prompt('Enter quantity to add:');
-    if (qty && !isNaN(qty)) {
-      try {
-        await addStock(id, parseInt(qty, 10));
-        setToast({ message: 'Stock added successfully!', type: 'success' });
-        fetchInventory();
-      } catch (err) {
-        setToast({ message: 'Failed to add stock', type: 'error' });
-      }
+  const openRestockModal = (product) => {
+    setSelectedRestockProduct(product);
+    setRestockModalOpen(true);
+  };
+
+  const handleConfirmRestock = async (qty) => {
+    const prodId = selectedRestockProduct?.productId ?? selectedRestockProduct?.product_id ?? selectedRestockProduct?.id;
+    if (!prodId) return;
+
+    try {
+      await addStock(prodId, qty);
+      setToast({ message: 'Stock added successfully!', type: 'success' });
+      setRestockModalOpen(false);
+      setSelectedRestockProduct(null);
+      fetchInventory();
+    } catch (err) {
+      setToast({ message: 'Failed to add stock', type: 'error' });
     }
   };
 
@@ -157,6 +229,7 @@ function InventoryPage() {
               </button>
             )}
           </div>
+
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <input
               type="text"
@@ -241,7 +314,7 @@ function InventoryPage() {
                           Edit
                         </button>
                         <button
-                          onClick={() => handleAddStock(prodId)}
+                          onClick={() => openRestockModal(p)}
                           className="px-3 py-1.5 bg-[#f3ff53]/10 hover:bg-[#f3ff53]/20 text-[#f3ff53] rounded-lg text-xs font-medium border border-[#f3ff53]/20 transition"
                         >
                           + Restock
@@ -262,6 +335,14 @@ function InventoryPage() {
         </div>
 
       </div>
+
+      <RestockModal
+        isOpen={restockModalOpen}
+        productName={selectedRestockProduct?.productName || selectedRestockProduct?.product_name || selectedRestockProduct?.name}
+        onClose={() => setRestockModalOpen(false)}
+        onSubmit={handleConfirmRestock}
+      />
+
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
     </div>
   );
@@ -321,6 +402,7 @@ function PosTerminalPage() {
       setToast({ message: 'Please select an item first.', type: 'error' });
       return;
     }
+
     try {
       const payload = {
         productId: parseInt(selectedProductId, 10),
@@ -336,11 +418,14 @@ function PosTerminalPage() {
       };
 
       setReservation(normalizedOrder);
+
       const expiryTime = Date.now() + 300 * 1000;
       setTimeLeft(300);
+
       localStorage.setItem('active_reservation', JSON.stringify(normalizedOrder));
       localStorage.setItem('reservation_expiry', expiryTime.toString());
       setToast({ message: 'Reservation created successfully!', type: 'success' });
+
     } catch (err) {
       setToast({ message: 'Failed to create reservation.', type: 'error' });
     }
@@ -361,6 +446,7 @@ function PosTerminalPage() {
           <h2 className="text-3xl font-serif font-bold text-white tracking-tight">POS Terminal</h2>
           <p className="text-[#9ca3af] text-sm">Select inventory items and secure live checkout sessions.</p>
         </div>
+
         <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-end shadow-xl">
           <div className="space-y-2 md:col-span-1">
             <label className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider">Select Product</label>

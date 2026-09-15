@@ -54,8 +54,8 @@ public class ProductController {
     }
 
     @PatchMapping("/{id}/stock")
-    public ResponseEntity<ProductDTO> addStock(@PathVariable Long Id, @RequestParam Integer quantity){
-        return ResponseEntity.ok(productService.addStock(Id, quantity));
+    public ResponseEntity<ProductDTO> addStock(@PathVariable Long id, @RequestParam Integer quantity){
+        return ResponseEntity.ok(productService.addStock(id, quantity));
     }
 
 
