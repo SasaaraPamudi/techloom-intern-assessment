@@ -3,14 +3,14 @@ Software Engineer Intern — Practical Assessment
 
 # Techloom Intern Assessment - Full Stack Engineering
 
-## 🚀 Live Deployments & Repository
+## Live Deployments & Repository
 * **GitHub Repository:** [https://github.com/SasaaraPamudi/techloom-intern-assessment](https://github.com/SasaaraPamudi/techloom-intern-assessment)
 * **Task 01 Live URL:** [techloom-intern-assessment-33ganmdwo-sasaara.vercel.app](https://techloom-intern-assessment-knf6ps18t-sasaara.vercel.app/)
 * **Task 02 Live URL:** [techloom-intern-assessment-6k2m-dn4tczwel-sasaara.vercel.app](https://techloom-intern-assessment-6k2m-dn4tczwel-sasaara.vercel.app/)
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 For task 01
 * **Frontend:** React.js / Vite 
 * **Backend:** Java 21 & Spring Boot 3.2.5
@@ -23,13 +23,13 @@ For task 02
 
 ---
 
-## 📦 Project Structure
+##  Project Structure
 * `/task-01` - POS Order & Inventory System (Concurrency-safe backend, stock reservations, lifecycle states)
 * `/task-02` - E-Commerce Checkout & Payment System (Catalog discovery, filtering, idempotent payments, order history)
 
 ---
 
-## ⚙️ Setup & Local Installation
+##  Setup & Local Installation
 
 ### Prerequisites
 * Java 21 SDK
