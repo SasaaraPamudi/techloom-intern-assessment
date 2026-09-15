@@ -69,3 +69,4 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 2. Use the product catalog search and category filters.
 3. Add products to the cart, run checkout, and test mock payment responses (success, timeout, duplicate safeguards).
 4. Navigate to the order history view to check past orders, cancellations, and refund simulations.
+
