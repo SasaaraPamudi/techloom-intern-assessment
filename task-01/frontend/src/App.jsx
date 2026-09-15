@@ -75,7 +75,6 @@ function InventoryPage() {
         price: parseFloat(formData.price),
         totalStock: parseInt(formData.totalStock, 10),
       };
-
       if (editingId) {
         await updateProduct(editingId, payload);
         setToast({ message: 'Product updated successfully!', type: 'success' });
@@ -158,7 +157,6 @@ function InventoryPage() {
               </button>
             )}
           </div>
-
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <input
               type="text"
@@ -171,7 +169,7 @@ function InventoryPage() {
             <input
               type="number"
               step="0.01"
-              placeholder="Price ($)"
+              placeholder="Price (Rs)"
               value={formData.price}
               onChange={(e) => setFormData({ ...formData, price: e.target.value })}
               required
@@ -222,7 +220,7 @@ function InventoryPage() {
                     <tr key={prodId} className="hover:bg-[#222722]/40 transition">
                       <td className="px-6 py-4 font-mono text-[#9ca3af]">#{prodId}</td>
                       <td className="px-6 py-4 font-semibold text-white">{prodName}</td>
-                      <td className="px-6 py-4 text-[#f3ff53] font-mono">${Number(p.price || 0).toFixed(2)}</td>
+                      <td className="px-6 py-4 text-[#f3ff53] font-mono">Rs {Number(p.price || 0).toFixed(2)}</td>
                       <td className="px-6 py-4">
                         {prodStock <= 5 ? (
                           <span className="inline-flex items-center gap-1.5 bg-rose-500/10 text-rose-400 text-xs px-3 py-1 rounded-full border border-rose-500/20 font-medium">
@@ -323,7 +321,6 @@ function PosTerminalPage() {
       setToast({ message: 'Please select an item first.', type: 'error' });
       return;
     }
-
     try {
       const payload = {
         productId: parseInt(selectedProductId, 10),
@@ -339,14 +336,11 @@ function PosTerminalPage() {
       };
 
       setReservation(normalizedOrder);
-
       const expiryTime = Date.now() + 300 * 1000;
       setTimeLeft(300);
-
       localStorage.setItem('active_reservation', JSON.stringify(normalizedOrder));
       localStorage.setItem('reservation_expiry', expiryTime.toString());
       setToast({ message: 'Reservation created successfully!', type: 'success' });
-
     } catch (err) {
       setToast({ message: 'Failed to create reservation.', type: 'error' });
     }
@@ -367,7 +361,6 @@ function PosTerminalPage() {
           <h2 className="text-3xl font-serif font-bold text-white tracking-tight">POS Terminal</h2>
           <p className="text-[#9ca3af] text-sm">Select inventory items and secure live checkout sessions.</p>
         </div>
-
         <div className="bg-[#1b201b] border border-[#2b332b] rounded-2xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-end shadow-xl">
           <div className="space-y-2 md:col-span-1">
             <label className="text-xs font-semibold text-[#9ca3af] uppercase tracking-wider">Select Product</label>
@@ -663,7 +656,7 @@ function OrderHistoryPage() {
                       <tr key={id} className="hover:bg-[#222722]/40 transition">
                         <td className="p-4 px-6 font-mono font-medium text-white">#{id}</td>
                         <td className="p-4 font-mono text-xs text-[#9ca3af]">{token}</td>
-                        <td className="p-4 font-semibold text-[#f3ff53]">${amount}</td>
+                        <td className="p-4 font-semibold text-[#f3ff53]">Rs {amount}</td>
                         <td className="p-4">
                           <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold border ${getStatusBadgeStyle(status)}`}>
                             {status}
