@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api/v1/orders")
 @CrossOrigin(origins = "http://localhost:5173")
 public class OrderController {
     @Autowired
